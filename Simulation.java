@@ -10,7 +10,7 @@ public class Simulation {
   }
 
   public void startSimulation() { 
-    while (true) {
+    while (board.checkEnd()) {
       pause(); 
       tick();
     }
