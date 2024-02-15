@@ -95,22 +95,6 @@ public class Board {
         count += 1;
       }
     }
-
-//    for(int x = j-1; x<j+1; j++) {
-//      if(j == 0){
-//        x = 1;
-//      }
-//      for (int c = i - 1; c < i + 1; i++) {
-//        if(i==0){
-//          c = 1;
-//        }
-//        if(x!=i||c!=j) {
-//          if (board[x][c].getIsAlive()) {
-//            count += 1;
-//          }
-//        }
-//      }
-//    }
     return count;
   }
 
