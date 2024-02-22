@@ -44,6 +44,10 @@ public class Board {
   public void placeFirstGen() {
     board[0][3] = new Cell(true);
     board[0][4] = new Cell(true);
+    board[0][5] = new Cell(true);
+    board[1][3] = new Cell(true);
+    board[1][5] = new Cell(true);
+    board[2][5] = new Cell(true);
     board[4][4] = new Cell(true);
     board[3][3] = new Cell(true);
     board[4][3] = new Cell(true);
@@ -55,46 +59,32 @@ public class Board {
 	//counts all eighth neighboring spaces
   public int countLiveNeighbors(int i, int j) {
     int count = 0;
-    if(i>0&&j>0) {
-      if (board[i - 1][j - 1].getIsAlive()) {
-        count += 1;
-      }
+    int end = board.length - 1;
+    // if row is bigger than 0
+    if (i > 0) {
+      // if column is also bigger than beggining, check if board part row-1 and column-1 is alive
+      if (j > 0 && board[i - 1][j - 1].getIsAlive()) {count += 1;}
+      // if row-1 and column is alive
+      if (board[i - 1][j].getIsAlive()) {count += 1;}
+      // if column is also smaller than end, check if board part row-1 and column+1 is alive
+      if (j < end && board[i - 1][j + 1].getIsAlive()) {count += 1;}
     }
-    if(i>0){
-      if(board[i-1][j].getIsAlive()){
-        count+=1;
-      }
+    // if column is bigger than 0
+    if (j > 0) {
+      // if row and column-1 is alive
+      if (board[i][j - 1].getIsAlive()) {count += 1;}
+      // if row is also smaller than end, check if board part row+1 and column-1 is alive
+      if (i < end && board[i + 1][j - 1].getIsAlive()) {count += 1;}
     }
-    if(i>0&&j<board.length-1){
-      if(board[i-1][j+1].getIsAlive()){
-        count+=1;
-      }
+    // if row is less than end
+    if(i<end){
+      // and column is less than end, check if board part row+1 and column+1 is alive
+      if(j<end && board[i+1][j+1].getIsAlive()){count+=1;}
+      // check if board part row+1 and column is alive
+      if(board[i + 1][j].getIsAlive()) {count += 1;}
     }
-    if(j>0){
-      if(board[i][j-1].getIsAlive()){
-        count+=1;
-      }
-    }
-    if(j>0&&i<board.length-1){
-      if(board[i+1][j-1].getIsAlive()){
-        count+=1;
-      }
-    }
-    if(i<board.length-1&&j<board.length-1){
-      if(board[i+1][j+1].getIsAlive()){
-        count+=1;
-      }
-    }
-    if(j<board.length-1) {
-      if (board[i][j + 1].getIsAlive()) {
-        count += 1;
-      }
-    }
-    if(i<board.length-1) {
-      if (board[i + 1][j].getIsAlive()) {
-        count += 1;
-      }
-    }
+    // if column is less than end, check if board part row and column+1 is alive
+    if(j<end && board[i][j + 1].getIsAlive()) {count += 1;}
     return count;
   }
 
@@ -110,34 +100,29 @@ public class Board {
 
     //all changes should be reflected only on nextGenBoard, and we copy them over on the last line of the method
 
-	//for each space in the nextGenBoard:
+	//for each row in the nextGenBoard:
 	for(int r = 0; r<nextGenBoard.length; r++){
+      //for each column in the row
       for(int c = 0; c<nextGenBoard[r].length; c++){
+        // get number of live neighbors
         int number = countLiveNeighbors(r,c);
+        // if the spot in last generation is alive, and it has 2 or 3 live neighbors, the same spot it alive in next generation
         if(board[r][c].getIsAlive()){
           if(number==2||number==3) {
             nextGenBoard[r][c].setIsAlive(true);
           }
-//          System.out.print("hi");
         }
+        // if the spot in last generation is dead, and it has 3 or 6 live neighbors, the same spot is alive in next generation
         else{
           if(number==3) {
             nextGenBoard[r][c].setIsAlive(true);
-//            System.out.print("hi");
+          }
+          if(number==6){
+            nextGenBoard[r][c].setIsAlive(true);
           }
         }
       }
     }
-//    System.out.print("hi");
-      //a live cell with 2-3 neighbors survives
-      
-
-      //a dead cell with 3 live neighbors becomes live
-
-      //a live cell with 0, 1, or >=4 neighbors dies
-  
-
-
     //copies all changes simultaneously. this line must be last
     board = nextGenBoard;
   }

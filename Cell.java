@@ -1,8 +1,8 @@
 public class Cell {
 
   //constants for ease of changing out what is stored in each spot
-  private final String EMOJI = "🦠";
-  private final String EMPTY = "🔲";
+  private final String EMOJI = "\uD83E\uDD0E";
+  private final String EMPTY = "\uD83E\uDD0D ";
   //boardSpace is the current status of each space, whether it be an EMOJI or EMPTY
   private String boardSpace;
   private boolean isAlive;
